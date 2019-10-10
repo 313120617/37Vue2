@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作业第一题</title>
+    <script src="vue2.6.10.js"></script>
+</head>
+<body>
+<div id="demo1">
+    <my-button></my-button>
+</div>
+
+<script>
+    var myButton={
+        template: '<div><button @click="num++">+</button><input type="text" v-model="num"/><button @click="num--">-</button></div>',
+        data() {
+            return {
+                num:1
+            }
+        },
+        watch: {
+            num() {
+                var reg= new RegExp(/^\D\d|\d\D|\D$/);
+                if (this.num < 1) {
+                    alert('数量为1，不能再减')
+                    this.num=1;
+                }
+                if(reg.test(this.num)){
+                    alert('输入数据不合法');
+                    this.num=1;
+                }
+            }
+        }
+    }
+    new Vue({
+        el:'#demo1',
+        components:{'my-button':myButton}
+    })
+</script>
+
+</body>
+</html>

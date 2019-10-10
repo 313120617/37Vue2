@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作业第二题</title>
+    <script src="vue2.6.10.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0 auto;
+        }
+        div {
+            width: 500px;
+            margin-top: 70px;
+        }
+        ul {
+            border: 2px solid cadetblue;
+        }
+        ul:nth-of-type(1) li {
+            width: 100px;
+            display: inline-block;
+            text-align: center;
+        }
+        ul:nth-of-type(n+2){
+            height: 200px;
+        }
+        .holder {
+            background: cadetblue;
+        }
+    </style>
+</head>
+<body>
+<div id="demo2">
+    <tab :list="list1" :holder="holderCls"></tab>
+    <tab :list="list2" :holder="holderCls"></tab>
+</div>
+<script type="text/javascript">
+    var tab={
+        props: ['list', 'holder'],
+        template: `
+                    <div>
+                        <ul>
+                            <li v-for="(item,index) in list" :class="item.show?holder:''" :key="index"  @click="handleShow(index)">{{item.title}}</li>
+                        </ul>
+                        <ul v-show="item.show" v-for="(item,index) in list">
+                            <li v-for="(value,key) in item.content">{{value}}</li>
+                        </ul>
+                    </div>
+                `,
+        methods: {
+            handleShow(index) {
+                for (var i = 0; i < this.list.length; i++) {
+                    this.list[i].show = false
+                }
+                this.list[index].show = true
+            }
+        }
+    }
+    new Vue({
+        el: '#demo2',
+        data() {
+            return {
+                list1: [{
+                    title: "选项卡1",
+                    content: {one:'这是选项卡1的内容'},
+                    show: true
+                },
+                    {
+                        title: "选项卡2",
+                        content: {one:'这是选项卡2的内容'},
+                        show: false
+                    },
+                    {
+                        title: "选项卡3",
+                        content: {one:'这是选项卡3的内容'},
+                        show: false
+                    }
+                ],
+                list2: [{
+                    title: "京东超市",
+                    content: {one: '时令生鲜',two: '休闲零食', three:'营养保健'
+                    },
+                    show: true
+                },
+                    {
+                        title: "数码电器",
+                        content: { one: '手机',two: '电脑',three:'外设' },
+                        show: false
+                    },
+                    {
+                        title: "服饰美妆",
+                        content: {one: '男装', two: '女装',three:'面膜'},
+                        show: false
+                    },
+                    {
+                        title: "京东生鲜",
+                        content: {one: '水产',two: '蔬菜', three:'干货'},
+                        show: false
+                    }
+                ],
+                holderCls: 'holder'
+            }
+        },
+        components:{'tab':tab}
+    })
+</script>
+</body>
+</html>
